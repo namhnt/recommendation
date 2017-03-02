@@ -15,4 +15,7 @@ public interface ConstantValue {
 	public static final String INPUT = "input";
 	public static final String OUTPUT = "output";
 	public static final String BATCH_NUMBER = "batchnumber";
+	public static final int maxHour = 24;
+	public static final int maxMin = 60;
+	public static final int maxSec = 60;
 }

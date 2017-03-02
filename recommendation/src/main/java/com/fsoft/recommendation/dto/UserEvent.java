@@ -1,5 +1,7 @@
 package com.fsoft.recommendation.dto;
 
+import java.util.Date;
+
 /**
  * 
  * @author NamHNT1
@@ -10,6 +12,7 @@ public class UserEvent {
 	
 	private String AccountId;
 	private String ItemId;
+	private Date EventTime;
 	private Float Rating;
 	
 	public UserEvent() {
@@ -62,5 +65,19 @@ public class UserEvent {
 	 */
 	public void setRating(Float rating) {
 		Rating = rating;
+	}
+
+	/**
+	 * @return the eventTime
+	 */
+	public Date getEventTime() {
+		return EventTime;
+	}
+
+	/**
+	 * @param eventTime the eventTime to set
+	 */
+	public void setEventTime(Date eventTime) {
+		EventTime = eventTime;
 	}
 }

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import com.cloudera.org.jets3t.service.io.TempFile;
 import com.fsoft.recommendation.dto.*;
 
 /**
@@ -34,7 +36,9 @@ public class UserEventGeneration {
 		this.setRangeOfItem(rangeOfItem);
 		this.DefaultRating = defaultRating;
 		this.MaxNumberAccount = maxNumberAccount;
+		//Max event a day should be 23 event
 		this.MaxNumberEvent = maxNumberEvent;
+		//this time will contains only data, we will not have time information
 		this.setInsertedTime(insertedTime);
 	}
 	
@@ -42,10 +46,18 @@ public class UserEventGeneration {
 		List<UserEvent> result = new ArrayList<UserEvent>();
 		Random rand = new Random();
 		UserEvent event;
+		int incremental = 1;
 		for (int i = 0; i < this.getRangeOfAccount(); i++) {
-			int randomIndexItem = rand.nextInt(getRangeOfItem().size());
-			event = new UserEvent(ConstantValue.prefixAccount + i, this.getRangeOfItem().get(randomIndexItem), (float) 1.0);
-			result.add(event);
+			for (int j = 0; j < this.MaxNumberEvent; j++) {
+				int randomIndexItem = rand.nextInt(getRangeOfItem().size());
+				event = new UserEvent(ConstantValue.prefixAccount + i, this.getRangeOfItem().get(randomIndexItem), (float) 1.0);
+				Date tempTimestamp = (Date)InsertedTime.clone();
+				tempTimestamp.setHours((j * incremental) % ConstantValue.maxHour);
+				tempTimestamp.setMinutes(rand.nextInt(ConstantValue.maxMin));
+				tempTimestamp.setSeconds(rand.nextInt(ConstantValue.maxSec));	
+				event.setEventTime(tempTimestamp);
+				result.add(event);
+			}
 		}
 		return result;
 		
@@ -118,7 +130,7 @@ public class UserEventGeneration {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// Testing Genrating Data
 
 	}
 
